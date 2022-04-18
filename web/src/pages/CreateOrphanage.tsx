@@ -1,6 +1,5 @@
 import React, { FormEvent, useState, ChangeEvent } from "react";
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { LeafletMouseEvent } from "leaflet";
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
 import { useHistory } from "react-router";
 import { FiPlus } from "react-icons/fi";
 
@@ -22,13 +21,25 @@ export default function CreateOrphanage() {
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
-  function handleMapClick(event: LeafletMouseEvent) {
-    const { lat, lng } = event.latlng;
-
-    setPosition({
-      latitude: lat,
-      longitude: lng,
+  const MarkerSelected = () => {
+    useMapEvents({
+      click(e) {
+        setPosition({
+          latitude: e.latlng.lat,
+          longitude: e.latlng.lng
+        });
+      },
     });
+
+    return (
+      position.latitude !== 0 ? (
+        <Marker
+          interactive={false}
+          icon={happyMapIcon}
+          position={[position.latitude, position.longitude]}
+        />
+      ) : null
+    );
   }
 
   function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
@@ -78,22 +89,15 @@ export default function CreateOrphanage() {
             <legend>Dados</legend>
 
             <MapContainer
-              center={[-27.2092052,-49.6401092]}
+              center={[-21.9225983,-50.7319229]}
               style={{ width: '100%', height: 280 }}
               zoom={15}
-              onClick={handleMapClick}
             >
               <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
               />
 
-              { position.latitude !== 0 && (
-                <Marker
-                  interactive={false}
-                  icon={happyMapIcon}
-                  position={[position.latitude,position.longitude]}
-                />
-              )}
+              <MarkerSelected />
             </MapContainer>
 
             <div className="input-block">
@@ -119,7 +123,7 @@ export default function CreateOrphanage() {
               <label htmlFor="images">Fotos</label>
 
               <div className="images-container">
-                { previewImages.map(image => {
+                {previewImages.map(image => {
                   return (
                     <img key={image} src={image} alt={name} />
                   );
@@ -129,7 +133,7 @@ export default function CreateOrphanage() {
                   <FiPlus size={24} color="#15b6d6" />
                 </label>
               </div>
-              <input multiple onChange={handleSelectImages} type="file" id="image[]"/>
+              <input multiple onChange={handleSelectImages} type="file" id="image[]" />
             </div>
           </fieldset>
 
@@ -160,15 +164,15 @@ export default function CreateOrphanage() {
               <div className="button-select">
                 <button
                   type="button"
-                  className={ open_on_weekends ? 'active' : ''}
-                  onClick={()=> setOpenOnWeekends(true)}
+                  className={open_on_weekends ? 'active' : ''}
+                  onClick={() => setOpenOnWeekends(true)}
                 >
                   Sim
                 </button>
                 <button
                   type="button"
-                  className={ !open_on_weekends ? 'active' : ''}
-                  onClick={()=> setOpenOnWeekends(false)}
+                  className={!open_on_weekends ? 'active-not' : ''}
+                  onClick={() => setOpenOnWeekends(false)}
                 >
                   Não
                 </button>

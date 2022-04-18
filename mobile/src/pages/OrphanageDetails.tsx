@@ -30,7 +30,7 @@ export default function OrphanageDetails() {
   const route = useRoute();
   const { id } = route.params as OrphanageRouteParams;
 
-  const [orphanage, setOrphanage] = useState<Orphanage>({});
+  const [orphanage, setOrphanage] = useState<Orphanage>();
 
   useEffect(() => {
     api.get(`orphanages/${id}`).then(response => {
@@ -53,7 +53,7 @@ export default function OrphanageDetails() {
     <ScrollView style={styles.container}>
       <View style={styles.imagesContainer}>
         <ScrollView horizontal pagingEnabled>
-          { orphanage.images.map((image) => {
+          { orphanage?.images.map((image) => {
             return (
               <Image
                 key={image.id}
@@ -66,14 +66,14 @@ export default function OrphanageDetails() {
       </View>
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{orphanage.name}</Text>
-        <Text style={styles.description}>{orphanage.about}</Text>
+        <Text style={styles.title}>{orphanage?.name}</Text>
+        <Text style={styles.description}>{orphanage?.about}</Text>
 
         <View style={styles.mapContainer}>
           <MapView
             initialRegion={{
-              latitude: orphanage.latitude,
-              longitude: orphanage.longitude,
+              latitude: orphanage?.latitude || -27.2092052,
+              longitude: orphanage?.longitude || -49.6401092,
               latitudeDelta: 0.008,
               longitudeDelta: 0.008,
             }}
@@ -83,13 +83,15 @@ export default function OrphanageDetails() {
             rotateEnabled={false}
             style={styles.mapStyle}
           >
-            <Marker
-              icon={mapMarkerImg}
-              coordinate={{
-                latitude: -27.2092052,
-                longitude: -49.6401092
-              }}
-            />
+            { orphanage?.latitude && (
+              <Marker
+                icon={mapMarkerImg}
+                coordinate={{
+                  latitude: orphanage?.latitude,
+                  longitude: orphanage?.longitude
+                }}
+              />
+            )}
           </MapView>
 
           <TouchableOpacity onPress={handleOpenGoogleMapRoutes} style={styles.routesContainer}>
@@ -100,14 +102,14 @@ export default function OrphanageDetails() {
         <View style={styles.separator} />
 
         <Text style={styles.title}>Instruções para visita</Text>
-        <Text style={styles.description}>{orphanage.instructions}</Text>
+        <Text style={styles.description}>{orphanage?.instructions}</Text>
 
         <View style={styles.scheduleContainer}>
           <View style={[styles.scheduleItem, styles.scheduleItemBlue]}>
             <Feather name="clock" size={40} color="#2AB5D1" />
-            <Text style={[styles.scheduleText, styles.scheduleTextBlue]}>Segunda à Sexta {orphanage.opening_hours}</Text>
+            <Text style={[styles.scheduleText, styles.scheduleTextBlue]}>Segunda à Sexta {orphanage?.opening_hours}</Text>
           </View>
-          { orphanage.open_on_weekends ? (
+          { orphanage?.open_on_weekends ? (
             <View style={[styles.scheduleItem, styles.scheduleItemGreen]}>
               <Feather name="info" size={40} color="#39CC83" />
               <Text style={[styles.scheduleText, styles.scheduleTextGreen]}>Atendemos fim de semana</Text>

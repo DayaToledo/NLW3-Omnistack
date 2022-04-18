@@ -4,7 +4,7 @@ export default {
   render(image: Image) {
     return {
       id: image.id,
-      url: `http://${process.env.IP_LOCAL}:3333/uploads/${image.path}`,
+      url: `http://${process.env.REACT_APP_IP_LOCAL}:3333/uploads/${image.path}`,
     };
   },
 

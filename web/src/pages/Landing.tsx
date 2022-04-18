@@ -13,7 +13,7 @@ function Landing() {
         <img src={logoImg} alt="Happy" />
 
         <main>
-          <h1>Leve felecidade para o mundo</h1>
+          <h1>Leve felicidade para o mundo</h1>
           <p>Visite orfanatos e mude o dia de muitas crianças.</p>
 
           <div className="location">

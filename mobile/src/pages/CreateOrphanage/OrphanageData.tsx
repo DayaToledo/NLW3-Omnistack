@@ -59,11 +59,13 @@ export default function OrphanageData() {
     data.append('latitude', String(latitude));
     data.append('longitude', String(longitude));
 
-    images.forEach((image, index) => data.append('images', {
-      type: 'image/jpg',
-      name: `image_${index}.jpg`,
-      uri: image,
-    } as any));
+    images.forEach((image, index) => {
+      data.append('images', {
+        name: `image_${index}.jpg`,
+        type: 'image/jpg',
+        uri: image,
+      } as any)
+    });
 
     await api.post('orphanages', data);
 
