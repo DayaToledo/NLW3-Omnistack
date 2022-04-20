@@ -7,7 +7,7 @@
 &nbsp;&nbsp;
 
 <p align="center">
-  <img alt="License" src="https://img.shields.io/github/license/DayaToledo/NLW3-Omnistack?style=for-the-badge"/>&nbsp;&nbsp;
+  <img alt="License" src="https://img.shields.io/github/license/dayaToledo/NLW3-Omnistack?style=for-the-badge"/>&nbsp;&nbsp;
   <img alt="Count languages" src="https://img.shields.io/github/languages/count/DayaToledo/NLW3-Omnistack?style=for-the-badge"/>&nbsp;&nbsp;
   <img alt="Top language" src="https://img.shields.io/github/languages/top/DayaToledo/NLW3-Omnistack?style=for-the-badge"/>&nbsp;&nbsp;
   <img alt="Repo size" src="https://img.shields.io/github/repo-size/DayaToledo/NLW3-Omnistack?style=for-the-badge"/>&nbsp;&nbsp;
